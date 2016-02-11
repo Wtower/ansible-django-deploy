@@ -1,0 +1,100 @@
+---
+# Deploys a Django app to Plesk
+
+- name: Set Python executable
+  set_fact: python="`which python{{ conf.python_version | default('3.5') }}`"
+
+- name: Make virtualenv
+  shell: "source ~/.bash_profile && mkvirtualenv {{ project }} --python={{ python }} --no-site-packages"
+  args:
+    executable: /bin/bash
+    creates: "{{ virtualenv_dir }}/{{ project }}"
+  register: mkvirtualenv
+  failed_when: 'mkvirtualenv.changed and "New python executable" not in mkvirtualenv.stdout'
+
+- name: Configure Apache
+  template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost.conf" backup=yes
+  become: true
+  when: conf.domain_name is defined
+  notify:
+    - Reconfigure Plesk domain
+    - Restart Apache
+
+- name: Configure New Relic
+  template: src="newrelic.ini.j2" dest="{{ virtualenv_dir }}/{{ project }}.newrelic.ini" backup=yes
+  when: newrelic is defined
+
+- name: Open ownership
+  file: name="{{ conf.host_path }}" owner="{{ ansible_user_id }}" mode=0775 state=directory recurse=yes
+  become: true
+
+- name: Sync files
+  synchronize:
+    src: "{{ conf.dev_path }}/"
+    dest: "{{ conf.host_path }}"
+    delete: yes
+    rsync_opts:
+      - "--exclude=.*"
+
+- name: Upgrade pip
+  pip:
+    name: "{{ item }}"
+    state: latest
+    virtualenv: "{{ virtualenv_dir }}/{{ project }}"
+    executable: "{{ virtualenv_dir }}/{{ project }}/bin/pip"
+  with_items:
+    - pip
+    - setuptools
+
+- name: Install pip requirements
+  pip:
+    requirements: "{{ conf.host_path }}/requirements.txt"
+    virtualenv: "{{ virtualenv_dir }}/{{ project }}"
+    executable: "{{ virtualenv_dir }}/{{ project }}/bin/pip"
+
+- name: Set Django admin executable
+  set_fact: manage="{{ virtualenv_dir }}/{{ project }}/bin/python {{ conf.host_path }}/manage.py"
+
+- name: Set Django admin settings
+  set_fact: settings="--settings={{ conf.name | default(project) }}.{{ django_settings }}"
+
+- name: Migrate
+  shell: "{{ manage }} migrate {{ settings }}"
+  register: migrate_result
+  changed_when: '"No migrations to apply." not in migrate_result.stdout'
+
+- name: Load data
+  shell: "{{ manage }} loaddata {{ item }} {{ settings }}"
+  when: loaddata is defined and loaddata == 'true'
+  with_items: conf.data
+  register: loaddata_results
+  failed_when: '"Installed" not in loaddata_results.stdout'
+
+- name: Collect static
+  shell: "{{ manage }} collectstatic --noinput {{ settings }}"
+
+- name: Compile messages
+  shell: "{{ manage }} compilemessages {{ settings }}"
+  when: conf.compile_msgs is defined and conf.compile_msgs
+
+- name: Clear cache
+  shell: "{{ manage }} cache_clear {{ settings }}"
+  when: conf.memcached is defined and conf.memcached
+
+- name: Close ownership to Plesk account group
+  file:
+    name: "{{ conf.host_path }}"
+    owner: "{{ conf.host_user }}"
+    group: "{{ plesk_account_group }}"
+    mode: 0775
+    state: directory
+    recurse: yes
+  become: true
+
+- name: Close ownership to Plesk server group
+  file:
+    name: "{{ conf.host_path }}"
+    owner: "{{ conf.host_user }}"
+    group: "{{ plesk_server_group }}"
+    state: directory
+  become: true

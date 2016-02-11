@@ -1,0 +1,8 @@
+---
+- name: Reconfigure Plesk domain
+  shell: "/usr/local/psa/admin/sbin/httpdmng --reconfigure-domain {{ conf.domain_name }}"
+  become: true
+
+- name: Restart Apache
+  service: name=apache2 state=restarted
+  become: true

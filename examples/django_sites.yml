@@ -1,0 +1,7 @@
+---
+django_sites:
+  myproject:
+    name: My Project
+    domain_name: myproject.com
+    host_path: /var/www/vhosts/mysite.com/myproject.com
+    python_version: 3.4

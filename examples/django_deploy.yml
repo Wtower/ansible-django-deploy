@@ -1,0 +1,26 @@
+---
+# Deploy Django
+#
+# Extra variables
+# - host
+# - project
+# - loaddata
+
+- hosts: "{{ host }}"
+
+  gather_facts: no
+
+  vars_files:
+    - ../conf/django_sites.yml
+
+  vars:
+    conf: "{{ django_sites[project] }}"
+    newrelic: 36bbf1bbae9a3790c9c254xxxxxx
+
+  pre_tasks:
+    - name: Checking if disabled
+      fail: msg="Site [{{ project }}] is disabled."
+      when: django_sites[project].disabled is defined
+
+  roles:
+    - django_deploy

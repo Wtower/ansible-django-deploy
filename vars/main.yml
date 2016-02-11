@@ -1,0 +1,12 @@
+---
+# Virtualenvs home directory
+virtualenv_dir: /var/virtualenvs
+
+# Django settings module
+django_settings: settings_live
+
+# Plesk server group name
+plesk_server_group: psaserv
+
+# Plesk account group name
+plesk_account_group: psacln

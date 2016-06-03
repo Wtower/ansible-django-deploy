@@ -63,6 +63,10 @@
   register: migrate_result
   changed_when: '"No migrations to apply." not in migrate_result.stdout'
 
+- name: Flush data
+  shell: "{{ manage }} flush --noinput {{ settings }}"
+  when: loaddata is defined and loaddata == 'true' and flush is defined and flush == 'true'
+
 - name: Load data
   shell: "{{ manage }} loaddata {{ item }} {{ settings }}"
   when: loaddata is defined and loaddata == 'true'

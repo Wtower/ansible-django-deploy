@@ -82,7 +82,7 @@
   when: conf.compile_msgs is defined and conf.compile_msgs
 
 - name: Clear cache
-  shell: "{{ manage }} cache_clear {{ settings }}"
+  shell: echo "from django.core.cache import cache; cache._cache.flush_all()" | {{ manage }} shell {{ settings }}
   when: conf.memcached is defined and conf.memcached
 
 - name: Close ownership to Plesk account group

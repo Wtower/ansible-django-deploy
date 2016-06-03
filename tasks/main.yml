@@ -4,7 +4,15 @@
 - name: Check that project path in dev as specified in configuration is valid and has wsgi script
   local_action: stat path={{ conf.dev_path }}/index.wsgi
   register: check_dev_path
-  fail_when: check_dev_path.stat.exists == False
+  failed_when: check_dev_path.stat.exists == False
+
+- name: Check if gulp file exists
+  local_action: stat path={{ conf.dev_path }}/gulpfile.js
+  register: check_gulp_file
+
+- name: Execute gulp
+  local_action: command gulp build --production chdir={{ conf.dev_path }}
+  when: check_gulp_file.stat.exists == True
 
 - name: Set Python executable
   set_fact: python="`which python{{ conf.python_version | default('3.5') }}`"

@@ -17,7 +17,8 @@ Optional variables
 
 (passed as extra variables):
 
-- `loaddata`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata.
+- `loaddata`: Set to `true` in order to load data from `conf.data`.
+- `flush`: Set to `true` in order to flush data before `loaddata`. Depends on `loaddata` variable to be `true`.
 - `newrelic`: New Relic license key. Omit to skip New Relic. Recommended to add a default in playbook.
 
 Required Configuration variables 
@@ -40,6 +41,7 @@ Optional Configuration variables
 - `conf.wsgi_script`: The wsgi script, default: `index.wsgi`.
 - `conf.compile_msgs`: Set to `true` in order to compile i18n messages.
 - `conf.memcached`: Set to `true` in order to clear cache.
+- `conf.data`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata. Depends on `loaddata` variable to be `true`.
 
 Other default variables
 -----------------------

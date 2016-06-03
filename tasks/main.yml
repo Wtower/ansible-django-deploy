@@ -98,6 +98,10 @@
   shell: echo "from django.core.cache import cache; cache._cache.flush_all()" | {{ manage }} shell {{ settings }}
   when: conf.memcached is defined and conf.memcached
 
+- name: Post deployment script
+  shell: echo "{{ conf.post_script }}" | {{ manage }} shell {{ settings }}
+  when: conf.post_script is defined and conf.post_script
+
 - name: Close ownership to Plesk account group
   file:
     name: "{{ conf.host_path }}"

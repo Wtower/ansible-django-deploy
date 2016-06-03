@@ -54,7 +54,6 @@
     name: "{{ item }}"
     state: latest
     virtualenv: "{{ virtualenv_dir }}/{{ project }}"
-    executable: "{{ virtualenv_dir }}/{{ project }}/bin/pip"
   with_items:
     - pip
     - setuptools
@@ -63,7 +62,6 @@
   pip:
     requirements: "{{ conf.host_path }}/requirements.txt"
     virtualenv: "{{ virtualenv_dir }}/{{ project }}"
-    executable: "{{ virtualenv_dir }}/{{ project }}/bin/pip"
 
 - name: Set Django admin executable
   set_fact: manage="{{ virtualenv_dir }}/{{ project }}/bin/python {{ conf.host_path }}/manage.py"

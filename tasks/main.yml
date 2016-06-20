@@ -80,6 +80,8 @@
 
 - name: Load data
   shell: "{{ manage }} loaddata {{ item }} {{ settings }}"
+  args:
+    chdir: "{{ conf.host_path }}"
   when: loaddata is defined and loaddata == 'true'
   with_items: '{{ conf.data }}'
   register: loaddata_results

@@ -57,6 +57,7 @@
   with_items:
     - pip
     - setuptools
+    - wheel
 
 - name: Install pip requirements
   pip:

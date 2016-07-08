@@ -1,7 +1,15 @@
 ---
 django_sites:
   myproject:
-    name: My Project
+    disabled: false
+    date: 19/3/2015
+    app_name: My Project
     domain_name: myproject.com
+    dev_path: ~/workspace/python/project
     host_path: /var/www/vhosts/mysite.com/myproject.com
+    host_user: username
     python_version: 3.4
+    memcached: true
+    data:
+      - auth
+      - app2

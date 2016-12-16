@@ -21,7 +21,7 @@
   shell: "source ~/.bash_profile && mkvirtualenv {{ project }} --python={{ python }} --no-site-packages"
   args:
     executable: /bin/bash
-    creates: "{{ conf.virtualenv_dir | default(virtualenv_dir) }}/{{ project }}"
+    creates: "{{ virtualenv_dir }}/{{ project }}"
   register: mkvirtualenv
   failed_when: 'mkvirtualenv.changed and "New python executable" not in mkvirtualenv.stdout'
 

@@ -85,13 +85,6 @@ Task description
 
    Create a virtualenv if it does not exist.
 
-6. Configure Apache
-
-   Configure Apache to execute the wsgi script using the provided template file.
-   Only executes if a `domain_name` is provided.
-   If the configuration changes, causes Plesk to reconfigure the domain in the end (notifies handler).
-   If the configuration changes, causes Apache to restart in the end (notifies handler).
-
 7. Configure New Relic
 
    If `newrelic` is defined configures New Relic.
@@ -157,3 +150,11 @@ Task description
 22. Close ownership to Plesk server group
 
     Reset target directory ownership to the appropriate Plesk permissions.
+
+23. Configure Apache
+
+   Configure Apache to execute the wsgi script using the provided template file.
+   Only executes if a `domain_name` is provided.
+   If the configuration changes, causes Plesk to reconfigure the domain in the end (notifies handler).
+   If the configuration changes, causes Apache to restart in the end (notifies handler).
+

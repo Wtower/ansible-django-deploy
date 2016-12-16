@@ -38,6 +38,7 @@ Optional Configuration variables
 
 - `conf.name`: The application name (machine name), the same as the Python app. Default: `{{ project }}`
 - `conf.python_version`: The python version to install (major.minor), default: `3.5`.
+- `conf.virtualenv_dir`: Virtualenvs home directory, default to vars' respective option.
 - `conf.wsgi_script`: The wsgi script, default: `index.wsgi`.
 - `conf.compile_msgs`: Set to `true` in order to compile i18n messages.
 - `conf.memcached`: Set to `true` in order to clear cache.

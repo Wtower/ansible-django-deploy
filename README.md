@@ -85,6 +85,10 @@ Task description
 
    Create a virtualenv if it does not exist.
 
+6. Check New Relic conf file in source
+
+   Otherwise create from template.
+
 7. Configure New Relic
 
    If `newrelic` is defined configures New Relic.

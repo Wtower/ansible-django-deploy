@@ -25,9 +25,13 @@
   register: mkvirtualenv
   failed_when: 'mkvirtualenv.changed and "New python executable" not in mkvirtualenv.stdout'
 
+- name: Check New Relic conf file
+  local_action: stat path={{ conf.dev_path }}/newrelic.ini
+  register: check_new_relic_file
+
 - name: Configure New Relic
   template: src="newrelic.ini.j2" dest="{{ virtualenv_dir }}/{{ project }}.newrelic.ini" backup=yes
-  when: newrelic is defined
+  when: check_new_relic_file == False and newrelic is defined
 
 - name: Open ownership
   file: name="{{ conf.host_path }}" owner="{{ ansible_user_id }}" mode=0775 state=directory recurse=yes

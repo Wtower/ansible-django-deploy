@@ -20,6 +20,7 @@ Optional variables
 - `loaddata`: Set to `true` in order to load data from `conf.data`.
 - `flush`: Set to `true` in order to flush data before `loaddata`. Depends on `loaddata` variable to be `true`.
 - `newrelic`: New Relic license key. Omit to skip New Relic. Recommended to add a default in playbook.
+- `exclude`: Additional pattern to exclude from sync, eg. `media/`.
 
 Required Configuration variables 
 --------------------------------
@@ -52,6 +53,7 @@ Other default variables
 - `django_settings`: The Django settings module (.py) to run manage.py from, default: `settings_live`.
 - `plesk_server_group`: Plesk server group, default: `psaserv`.
 - `plesk_account_group`: Plesk account group, default: `psacln`.
+- `sync_opts`: Additional options for rsync. Default: exclude `.*`.
 
 Playbook examples
 -----------------
@@ -96,69 +98,72 @@ Task description
 8. Open ownership
 
    Open the target directory ownership to allow file copy.
+   
+9. Build sync options
 
-9. Sync files
+   Combine the default `sync_opts` variable with the `exclude` option.
 
-   Syncs files to target directory.
+10. Sync files
 
-   :warning: Make sure that you have synced back any user uploaded files in `media` with manual `rsync`. 
+    Syncs files to target directory.
 
-10. Upgrade pip
+    :warning: Make sure that you have synced back user uploaded files in `media` with manual `rsync` or use `exclude`. 
+
+11. Upgrade pip
 
     Upgrades pip, setup, wheel. 
 
-11. Install pip requirements
+12. Install pip requirements
 
     Install `requirements.txt` in virtualenv.
 
-12. Set Django admin executable
+13. Set Django admin executable
 
     Auxiliary task which sets a variable with the Django admin executable.
 
-13. Set Django admin settings
+14. Set Django admin settings
 
     Auxiliary task which sets a variable with the custom settings file (default `django_settings` variable).
 
-14. Migrate
+15. Migrate
 
     Runs migrations.
 
-15. Flush data
+16. Flush data
 
     Flushes data if `loaddata` and `flush` are both true.
 
-16. Load data
+17. Load data
 
     Loads data if `loaddata` is true.
 
-17. Collect static
+18. Collect static
 
     Runs collect static.
 
-18. Compile messages
+19. Compile messages
 
    Compiles i18n messages if `compile_msgs` is true.
 
-19. Clear cache
+20. Clear cache
 
    Clears cache if `memcached` is true.
 
-20. Post deployment script
+21. Post deployment script
 
     Runs an optional `post_script`.
 
-21. Close ownership to Plesk account group
+22. Close ownership to Plesk account group
 
     Reset target directory ownership to the appropriate Plesk permissions.
 
-22. Close ownership to Plesk server group
+23. Close ownership to Plesk server group
 
     Reset target directory ownership to the appropriate Plesk permissions.
 
-23. Configure Apache
+24. Configure Apache
 
    Configure Apache to execute the wsgi script using the provided template file.
    Only executes if a `domain_name` is provided.
    If the configuration changes, causes Plesk to reconfigure the domain in the end (notifies handler).
    If the configuration changes, causes Apache to restart in the end (notifies handler).
-

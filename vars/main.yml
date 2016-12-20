@@ -10,3 +10,7 @@ plesk_server_group: psaserv
 
 # Plesk account group name
 plesk_account_group: psacln
+
+# Additional rsync options
+sync_opts:
+  - "--exclude=.*"

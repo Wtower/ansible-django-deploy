@@ -37,13 +37,18 @@
   file: name="{{ conf.host_path }}" owner="{{ ansible_user_id }}" mode=0775 state=directory recurse=yes
   become: true
 
+- name: Build sync options
+  set_fact:
+    sync_opts_user:
+      - "--exclude={{ exclude }}"
+  when: exclude is defined
+
 - name: Sync files
   synchronize:
     src: "{{ conf.dev_path }}/"
     dest: "{{ conf.host_path }}"
     delete: yes
-    rsync_opts:
-      - "--exclude=.*"
+    rsync_opts: "{{ sync_opts + sync_opts_user|default([]) }}"
 
 - name: Upgrade pip
   pip:

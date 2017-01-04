@@ -125,6 +125,14 @@
 - name: Configure Apache
   template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost.conf" backup=yes
   become: true
+  when: conf.domain_name is defined and (conf.https_only is not defined or not conf.https_only)
+  notify:
+    - Reconfigure Plesk domain
+    - Restart Apache
+
+- name: Configure Apache SSL
+  template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost_ssl.conf" backup=yes
+  become: true
   when: conf.domain_name is defined
   notify:
     - Reconfigure Plesk domain

@@ -10,6 +10,7 @@ django_sites:
     host_user: username
     python_version: 3.4
     memcached: true
+    https_only: true
     data:
       - auth
       - app2

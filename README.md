@@ -44,6 +44,8 @@ Optional Configuration variables
 - `conf.compile_msgs`: Set to `true` in order to compile i18n messages.
 - `conf.memcached`: Set to `true` in order to clear cache.
 - `conf.data`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata. Depends on `loaddata` variable to be `true`.
+- `conf.https_only`: If true then configure Apache 
+  [only for SSL](https://github.com/Wtower/ansible-node-deploy/issues/6). Default: `false`.
 
 Other default variables
 -----------------------

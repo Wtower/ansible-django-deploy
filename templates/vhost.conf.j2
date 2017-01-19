@@ -1,6 +1,17 @@
 # {{ ansible_managed }}
 
-WSGIScriptAlias / {{ conf.host_path }}/{{ conf.wsgi_script| default('index.wsgi') }}
+{% if conf.wsgi_threads is defined %}
+WSGIDaemonProcess {{ conf.domain_name }} display-name=django-{{ project }} threads={{ conf.wsgi_threads }}
+    {%- if conf.wsgi_processes is defined %} processes={{ conf.wsgi_processes }}{% endif -%}
+    {%- if conf.wsgi_inactivity_timeout is defined %} inactivity-timeout={{ conf.wsgi_inactivity_timeout }}{% endif -%}
+    {%- if conf.wsgi_restart_interval is defined %} restart-interval={{ conf.wsgi_restart_interval }}{% endif -%}
+    {%- if conf.wsgi_max_requests is defined %} maximum-requests={{ conf.wsgi_max_requests }}{% endif -%}
+    {%- if conf.wsgi_graceful_timeout is defined %} graceful-timeout={{ conf.wsgi_graceful_timeout }}{% endif -%}
+    {%- if conf.wsgi_queue_timeout is defined %} queue-timeout={{ conf.wsgi_queue_timeout }}{% endif %}
+
+WSGIProcessGroup {{ conf.domain_name }}
+{% endif %}
+WSGIScriptAlias / {{ conf.host_path }}/{{ conf.wsgi_script|default('index.wsgi') }}
 
 Alias /static/ {{ conf.host_path }}/static/
 <Location "/static/">

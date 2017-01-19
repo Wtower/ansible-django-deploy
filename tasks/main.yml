@@ -122,16 +122,21 @@
     state: directory
   become: true
 
+- name: Update WSGI module timestamp
+  file:
+    name: "{{ conf.host_path }}/{{ conf.wsgi_script|default('index.wsgi') }}"
+    state: touch
+
 - name: Configure Apache
   template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost.conf" backup=yes
   become: true
-  when: conf.domain_name is defined and (conf.https_only is not defined or not conf.https_only)
+  when: conf.domain_name is defined
   notify:
     - Reconfigure Plesk domain
     - Restart Apache
 
 - name: Configure Apache SSL
-  template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost_ssl.conf" backup=yes
+  template: src="vhost_ssl.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost_ssl.conf" backup=yes
   become: true
   when: conf.domain_name is defined
   notify:

@@ -8,6 +8,9 @@ django_sites:
     dev_path: ~/workspace/python/project
     host_path: /var/www/vhosts/mysite.com/myproject.com
     host_user: username
+    wsgi_script: ninedev/wsgi_mod.py
+    wsgi_threads: 3
+    wsgi_inactivity_timeout: 300
     python_version: 3.4
     memcached: true
     https_only: true

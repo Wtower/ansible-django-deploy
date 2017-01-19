@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+{% if conf.wsgi_threads is defined %}
+WSGIProcessGroup {{ conf.domain_name }}
+{% endif %}
+WSGIScriptAlias / {{ conf.host_path }}/{{ conf.wsgi_script|default('index.wsgi') }}
+
+Alias /static/ {{ conf.host_path }}/static/
+<Location "/static/">
+    Options -Indexes
+</Location>
+
+Alias /media/ {{ conf.host_path }}/media/
+<Location "/media/">
+    Options -Indexes
+</Location>

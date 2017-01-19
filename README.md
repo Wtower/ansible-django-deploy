@@ -40,12 +40,24 @@ Optional Configuration variables
 - `conf.name`: The application name (machine name), the same as the Python app. Default: `{{ project }}`
 - `conf.python_version`: The python version to install (major.minor), default: `3.5`.
 - `conf.virtualenv_dir`: Virtualenvs home directory, default to vars' respective option.
-- `conf.wsgi_script`: The wsgi script, default: `index.wsgi`.
 - `conf.compile_msgs`: Set to `true` in order to compile i18n messages.
 - `conf.memcached`: Set to `true` in order to clear cache.
-- `conf.data`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata. Depends on `loaddata` variable to be `true`.
-- `conf.https_only`: If true then configure Apache 
-  [only for SSL](https://github.com/Wtower/ansible-node-deploy/issues/6). Default: `false`.
+- `conf.data`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata. 
+  Depends on `loaddata` variable to be `true`.
+
+[WSGI](http://modwsgi.readthedocs.io/en/develop/configuration-directives/WSGIDaemonProcess.html)
+
+- `conf.wsgi_script`: The wsgi script, default: `index.wsgi`.
+- `conf.wsgi_threads`: If set mod_wsgi runs in daemon mode (**recommended** 3-25).
+
+The following are used only for daemon mode:
+
+- `conf.wsgi_processes`: If set mod_wsgi runs in multi-process mode (integer).
+- `conf.wsgi_inactivity_timeout`: Set only for small traffic sites to reset process and reclaim memory (eg. 300).
+- `conf.wsgi_restart_interval`: Set to let process restart after n seconds. Useful if process memory grows large.
+- `conf.wsgi_max_requests`: Similar to the above.
+- `conf.wsgi_graceful_timeout`: If any of the above two are set, the number of seconds to expect no requests to restart.
+- `conf.wsgi_queue_timeout`: If large request queues, drop requests after that many seconds.
 
 Other default variables
 -----------------------
@@ -163,7 +175,11 @@ Task description
 
     Reset target directory ownership to the appropriate Plesk permissions.
 
-24. Configure Apache
+24. Touch WSGI script
+
+    Update the timestamp. If WSGI daemon mode it causes restart of the process at next request.
+
+25. Configure Apache
 
    Configure Apache to execute the wsgi script using the provided template file.
    Only executes if a `domain_name` is provided.

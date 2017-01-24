@@ -54,8 +54,8 @@ The following are used only for daemon mode:
 
 - `conf.wsgi_processes`: If set mod_wsgi runs in multi-process mode (integer).
 - `conf.wsgi_inactivity_timeout`: Set only for small traffic sites to reset process and reclaim memory (eg. 300).
-- `conf.wsgi_restart_interval`: Set to let process restart after n seconds. Useful if process memory grows large.
-- `conf.wsgi_max_requests`: Similar to the above.
+- `conf.wsgi_max_requests`: Set to let process restart after n seconds. Useful if process memory grows large.
+- `conf.wsgi_restart_interval`: Similar to the above. Only available for mod_wsgi>=v4.5.12.
 - `conf.wsgi_graceful_timeout`: If any of the above two are set, the number of seconds to expect no requests to restart.
 - `conf.wsgi_queue_timeout`: If large request queues, drop requests after that many seconds.
 

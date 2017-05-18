@@ -12,6 +12,7 @@ django_sites:
     wsgi_script: ninedev/wsgi_mod.py
     wsgi_threads: 3
     wsgi_inactivity_timeout: 300
+    limit_request_body: 20971520
     python_version: 3.4
     memcached: true
     https_only: true

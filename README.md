@@ -45,6 +45,7 @@ Optional Configuration variables
 - `conf.memcached`: Set to `true` in order to clear cache.
 - `conf.data`: A list of the dump files to load data from, eg `[project, auth]`, omit to skip loaddata. 
   Depends on `loaddata` variable to be `true`.
+- `conf.limit_request_body`: The maximum upload size allowed to Apache. Default: 10MB.
 
 [WSGI](http://modwsgi.readthedocs.io/en/develop/configuration-directives/WSGIDaemonProcess.html)
 

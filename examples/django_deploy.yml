@@ -12,6 +12,7 @@
 
   vars_files:
     - ../conf/django_sites.yml
+    - "{{ secret_file|default('secret') }}"
 
   vars:
     conf: "{{ django_sites[project] }}"

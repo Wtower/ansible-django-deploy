@@ -20,6 +20,9 @@ galaxy_info:
       - utopic
       - vivid
       - wily
+      - xenial
+      - yakkety
+      - zesty
   galaxy_tags:
     - system
     - development

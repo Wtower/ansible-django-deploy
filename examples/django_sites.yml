@@ -7,6 +7,7 @@ django_sites:
     domain_name: myproject.com
     dev_path: ~/workspace/python/project
     host_path: /var/www/vhosts/mysite.com/myproject.com
+    vhost_conf_path: /var/www/vhosts/system/myproject.com/conf
     host_user: username
     wsgi_script: ninedev/wsgi_mod.py
     wsgi_threads: 3

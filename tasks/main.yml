@@ -128,7 +128,7 @@
     state: touch
 
 - name: Configure Apache
-  template: src="vhost.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost.conf" backup=yes
+  template: src="vhost.conf.j2" dest="{{ conf.vhost_conf_path }}/vhost.conf" backup=yes
   become: true
   when: conf.domain_name is defined
   notify:
@@ -136,7 +136,7 @@
     - Restart Apache
 
 - name: Configure Apache SSL
-  template: src="vhost_ssl.conf.j2" dest="/var/www/vhosts/{{ conf.domain_name }}/conf/vhost_ssl.conf" backup=yes
+  template: src="vhost_ssl.conf.j2" dest="{{ conf.vhost_conf_path }}/vhost_ssl.conf" backup=yes
   become: true
   when: conf.domain_name is defined
   notify:

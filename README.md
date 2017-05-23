@@ -21,6 +21,7 @@ Optional variables
 - `flush`: Set to `true` in order to flush data before `loaddata`. Depends on `loaddata` variable to be `true`.
 - `newrelic`: New Relic license key. Omit to skip New Relic. Recommended to add a default in playbook.
 - `exclude`: Additional pattern to exclude from sync, eg. `media/`.
+- `loglevel`: Explicitly define an Apache log level, eg. `loglevel=info`.
 
 Required Configuration variables 
 --------------------------------

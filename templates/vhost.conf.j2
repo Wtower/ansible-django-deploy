@@ -15,6 +15,9 @@ WSGIScriptAlias / {{ conf.host_path }}/{{ conf.wsgi_script|default('index.wsgi')
 
 LimitRequestBody {{ conf.limit_request_body|default(10485760) }}
 
+{% if loglevel is defined %}LogLevel {{ loglevel }}
+{% endif %}
+
 Alias /static/ {{ conf.host_path }}/static/
 <Location "/static/">
     Options -Indexes

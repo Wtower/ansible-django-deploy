@@ -52,13 +52,9 @@
 
 - name: Upgrade pip
   pip:
-    name: "{{ item }}"
+    name: ['pip', 'setuptools', 'wheel']
     state: latest
     virtualenv: "{{ virtualenv_dir }}/{{ project }}"
-  with_items:
-    - pip
-    - setuptools
-    - wheel
 
 - name: Install pip requirements
   pip:
